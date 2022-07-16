@@ -1,12 +1,18 @@
 package com.hsren.demo;
 
+/**
+ * 死锁
+ * 线程1 获取并上锁 资源1，同时在不解锁的情况下去获取 资源2
+ * 线程2 获取并上锁 资源2，同时在不解锁的情况下去获取 资源1
+ * 如果不能连续获取2个资源并解锁，将死锁。
+ */
 public class DeadLockDemo {
     private static final Object resource1 = new Object();//资源 1
     private static final Object resource2 = new Object();//资源 2
 
     public static void main(String[] args) {
         new Thread(() -> {
-            synchronized (resource1) {
+            synchronized (resource2) {
                 System.out.println(Thread.currentThread() + "get resource1");
                 try {
                     Thread.sleep(1000);
@@ -14,7 +20,7 @@ public class DeadLockDemo {
                     e.printStackTrace();
                 }
                 System.out.println(Thread.currentThread() + "waiting get resource2");
-                synchronized (resource2) {
+                synchronized (resource1) {
                     System.out.println(Thread.currentThread() + "get resource2");
                 }
             }
