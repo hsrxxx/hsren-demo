@@ -6,13 +6,13 @@ import java.security.*;
 import java.util.ArrayList;
 
 public class Transaction {
-	
+
 	public String transactionId; // this is also the hash of the transaction.
 	public PublicKey sender; // 发送方地址/公钥。
 	public PublicKey reciepient; // 接收方地址/公钥。
 	public float value; // 要转移的资金价值/金额
 	public byte[] signature; // 这是为了防止其他人花我们钱包里的钱。
-	
+
 	public ArrayList<TransactionInput> inputs = new ArrayList<TransactionInput>();
 	public ArrayList<TransactionOutput> outputs = new ArrayList<TransactionOutput>();
 	
@@ -43,6 +43,7 @@ public class Transaction {
 				Float.toString(value);
 		signature = StringUtil.applyECDSASig(privateKey,data);
 	}
+
 	// 验证我们签名的数据没有被篡改
 	public boolean verifiySignature() {
 		String data = StringUtil.getStringFromKey(sender) +
